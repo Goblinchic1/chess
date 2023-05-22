@@ -1,0 +1,32 @@
+/* chess */
+main {
+    background-color: rgba(0, 0, 0, 0.87);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#board {
+    width: 640px;
+    height: 640px;
+    border: 20px solid #4b52fd;
+    display: flex;
+    flex-wrap: wrap;
+}
+.square {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.black {
+    background-color: #ff69fc;
+}
+.white {
+    background-color: #f6f6f6;
+}
+.figure {
+    font-size: 60px;
+    cursor: pointer;
+}
