@@ -1,26 +1,16 @@
 import {Figure} from "./Figure.js";
-import {Board} from "@/chess/Board.js";
-import {Queen} from "@/chess/figures/Queen.js";
+import {Queen} from "./Queen.js";
 
 export class Pawn extends Figure {
-    canMove(dropSquare) {
-        return super.canMove(dropSquare)
-    }
+    canMoveHorizontal(dropSquare, squareId, replacedSquareId) {
+        super.canMoveHorizontal(dropSquare, squareId, replacedSquareId)
 
-    canMoveHorizontal(dropSquare) {
-        super.canMoveHorizontal(dropSquare)
-
-        const squareId = parseInt(this.square.id.replace('square_', ''))
-        const replacedSquareId = parseInt(dropSquare.id.replace('square_', ''))
         return Math.floor(squareId / 8) !== Math.floor(replacedSquareId / 8);
     }
 
 
-    canMoveVertical(dropSquare) {
-        const figureRules = super.canMoveVertical(dropSquare);
-
-        const squareId = parseInt(this.square.id.replace('square_', ''))
-        const replacedSquareId = parseInt(dropSquare.id.replace('square_', ''))
+    canMoveVertical(dropSquare, squareId, replacedSquareId) {
+        const figureRules = super.canMoveVertical(dropSquare, squareId, replacedSquareId);
 
         const squareRow = Math.floor(squareId / 8)
         const replaceSquareRow = Math.floor(replacedSquareId / 8)
@@ -48,7 +38,8 @@ export class Pawn extends Figure {
         }
 
         const canMoves = Math.abs(replacedSquareId - squareId);
-        if ((canMoves < 7 || canMoves > 9) && (squareRow !== 1 && squareRow !== 6)) {
+
+        if ((canMoves < 7 || canMoves > 9) && ((squareRow !== 1 && squareRow !== 6) || canMoves !== 16)) {
             return false
         }
 

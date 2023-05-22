@@ -96,17 +96,18 @@ export class Figure {
 
 
     canMove(dropSquare) {
-        return this.canMoveColor(dropSquare)
-            && this.canMoveKing(dropSquare)
-            && this.canMoveVertical(dropSquare)
-            && this.canMoveHorizontal(dropSquare)
-    }
-
-
-    canMoveVertical(dropSquare) {
         const squareId = parseInt(this.square.id.replace('square_', ''))
         const replacedSquareId = parseInt(dropSquare.id.replace('square_', ''))
 
+        return this.canMoveColor(dropSquare)
+            && this.canMoveKing(dropSquare)
+            && this.canMoveVertical(dropSquare, squareId, replacedSquareId)
+            && this.canMoveHorizontal(dropSquare, squareId, replacedSquareId)
+            && this.canMoveDiagonal(squareId, replacedSquareId)
+    }
+
+
+    canMoveVertical(dropSquare, squareId, replacedSquareId) {
         if ((squareId - replacedSquareId) % 8 !== 0) {
             return true
         }
@@ -130,9 +131,7 @@ export class Figure {
     }
 
 
-    canMoveHorizontal(dropSquare) {
-        const squareId = parseInt(this.square.id.replace('square_', ''))
-        const replacedSquareId = parseInt(dropSquare.id.replace('square_', ''))
+    canMoveHorizontal(squareId, replacedSquareId) {
         if (Math.floor(squareId / 8) !== Math.floor(replacedSquareId / 8)) {
             return true
         }
@@ -152,6 +151,38 @@ export class Figure {
         }
 
         return true
+    }
+
+
+    canMoveDiagonal(squareId, replacedSquareId) {
+
+
+        const differenceSquares = Math.abs(squareId - replacedSquareId)
+
+        let movesSquares = 0
+        if (differenceSquares % 9 === 0) {
+            movesSquares = 9
+        } else if (differenceSquares % 7 === 0) {
+            movesSquares = 7
+        } else {
+            return true
+        }
+
+        const minSquare = Math.min(squareId, replacedSquareId)
+        const maxSquare = Math.max(squareId, replacedSquareId)
+
+        for (let i = minSquare + movesSquares; i < maxSquare; i += movesSquares) {
+            if (this.Board.figures[i] !== '1') {
+                return false
+            }
+        }
+
+        return true
+    }
+
+
+    canMoveSquareColor(dropSquare) {
+        return dropSquare.classList.contains('black') === this.square.classList.contains('black')
     }
 
 
