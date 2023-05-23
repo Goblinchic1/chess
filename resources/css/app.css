@@ -30,3 +30,18 @@ main {
     font-size: 60px;
     cursor: pointer;
 }
+.pre-move {
+    cursor: pointer;
+}
+.pre-move:after {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #718096;
+}
+.pre-move_eat {
+    background-color: rgba(255, 0, 0, 0.81);
+    cursor: pointer;
+}

@@ -1,5 +1,4 @@
 import {Figure} from "./Figure.js";
-import {Queen} from "./Queen.js";
 
 export class Pawn extends Figure {
     canMoveHorizontal(dropSquare, squareId, replacedSquareId) {
@@ -45,39 +44,14 @@ export class Pawn extends Figure {
 
         return figureRules
             && this.canEat(squareId, replacedSquareId, canMoves)
-            && this.canUpgrade(squareId, replacedSquareId)
     }
 
 
     canEat(squareId, replacedSquareId, canMoves) {
-        if (canMoves === 8 && this.Board.figures[replacedSquareId] !== '1') {
-            return false
-        }
+        const isBusyForward = canMoves === 8 && this.Board.figures[replacedSquareId] !== '1'
 
-        if ((canMoves === 7 || canMoves === 9) && this.Board.figures[replacedSquareId] === '1') {
-            return false
-        }
+        const isFreeDiagonal = (canMoves === 7 || canMoves === 9) && this.Board.figures[replacedSquareId] === '1'
 
-        return true
-    }
-
-
-    canUpgrade(squareId, replacedSquareId) {
-        if (replacedSquareId < 8 || replacedSquareId > 55) {
-            this.upgrade(squareId, replacedSquareId, (replacedSquareId < 8) ? 'Q' : 'q')
-
-            return false
-        }
-
-        return true
-    }
-
-
-    upgrade(squareId, replacedSquareId, figureAlias) {
-        this.square.innerHTML = ''
-        document.getElementById('square_' + replacedSquareId).innerHTML = ''
-        new Queen(`square_${replacedSquareId}`, figureAlias, this.Board)
-        this.Board.figures[squareId] = '1'
-        this.Board.figures[replacedSquareId] = figureAlias
+        return !(isBusyForward || isFreeDiagonal)
     }
 }
